@@ -90,6 +90,7 @@ php artisan ui vue --auth
 php artisan config:clear
 
 npm install
+(npm install vue-awesome)
 
 npm run dev
 
