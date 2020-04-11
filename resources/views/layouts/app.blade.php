@@ -7,9 +7,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
+            'apiToken' => \Auth::user()->api_token ?? null
+        ]) !!};
+    </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -49,6 +54,12 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="/members">Members</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/company">Company Info</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -71,6 +82,12 @@
                 </div>
             </div>
         </nav>
+
+        @auth
+            <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+                <menu-component></menu-component>
+            </nav>
+        @endauth
 
         <main class="py-4">
             @yield('content')
