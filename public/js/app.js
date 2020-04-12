@@ -2802,11 +2802,95 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['users', 'jobCategories', 'posts', 'recruitType', 'empStatus', 'divisions'],
   data: function data() {
     return {
       members: this.users,
+      id: '',
       name: '',
       email: '',
       employeeNo: '',
@@ -2824,9 +2908,21 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    closeModal: function closeModal(e) {
+    closeModal: function closeModal() {
       this.showAddModal = false;
-      e.preventDefault();
+      this.showEditModal = false;
+      this.message = '';
+      this.errors = [];
+      this.id = '';
+      this.name = '';
+      this.email = '';
+      this.employeeNo = '';
+      this.division = '';
+      this.jobCategory = '';
+      this.post = '';
+      this.recruitCategory = '';
+      this.employmentStatus = '';
+      this.joiningAt = '';
     },
     postMember: function postMember() {
       var _this = this;
@@ -2861,15 +2957,73 @@ __webpack_require__.r(__webpack_exports__);
         _this.recruitCategory = '';
         _this.employmentStatus = '';
         _this.joiningAt = '';
+
+        _this.reload();
       })["catch"](function (err) {
         _this.message = err.response.data.message;
         _this.errors = err.response.data.errors;
       });
     },
-    openEditModal: function openEditModal() {},
-    deleteMember: function deleteMember(id) {
+    openEditModal: function openEditModal(member) {
+      this.id = member.id;
+      this.name = member.name;
+      this.email = member.email;
+      this.employeeNo = member.employee_no;
+      this.division = member.division;
+      this.jobCategory = member.job_category;
+      this.post = member.post;
+      this.recruitCategory = member.recruit_category;
+      this.employmentStatus = member.employment_status;
+      var regex = /\s\d\d:\d\d:\d\d/g;
+      this.joiningAt = member.joining_at.replace(regex, '');
+      this.showEditModal = true;
+    },
+    postEditMember: function postEditMember() {
+      var _this2 = this;
+
       var data = {
-        userId: id
+        'id': this.id,
+        'name': this.name,
+        'employeeNo': this.employeeNo,
+        'division': this.division,
+        'jobCategory': this.jobCategory,
+        'post': this.post,
+        'recruitCategory': this.recruitCategory,
+        'employmentStatus': this.employmentStatus,
+        'joiningAt': this.joiningAt
+      };
+      axios.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        'Authorization': 'Bearer ' + Laravel.apiToken,
+        'Accept': 'application/json'
+      };
+      axios.post('/api/member/edit', data).then(function (res) {
+        _this2.message = '';
+        _this2.errors = [];
+        _this2.showEditModal = false;
+        _this2.id = '';
+        _this2.name = '';
+        _this2.email = '';
+        _this2.employeeNo = '';
+        _this2.division = '';
+        _this2.jobCategory = '';
+        _this2.post = '';
+        _this2.recruitCategory = '';
+        _this2.employmentStatus = '';
+        _this2.joiningAt = '';
+
+        _this2.reload();
+      })["catch"](function (err) {
+        _this2.message = err.response.data.message;
+        _this2.errors = err.response.data.errors;
+      });
+    },
+    deleteMember: function deleteMember(id) {
+      var _this3 = this;
+
+      var data = {
+        'id': id
       };
       axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
@@ -2877,14 +3031,16 @@ __webpack_require__.r(__webpack_exports__);
         'Authorization': 'Bearer ' + Laravel.apiToken
       };
       axios.post('/api/member/delete', data).then(function (res) {
-        console.log(res);
+        _this3.reload();
       })["catch"](function (err) {
         console.log(err);
       });
     },
     restMember: function restMember(id) {
+      var _this4 = this;
+
       var data = {
-        userId: id
+        'id': id
       };
       axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
@@ -2892,9 +3048,15 @@ __webpack_require__.r(__webpack_exports__);
         'Authorization': 'Bearer ' + Laravel.apiToken
       };
       axios.post('/api/member/rest', data).then(function (res) {
-        console.log(res);
+        _this4.reload();
       })["catch"](function (err) {
         console.log(err);
+      });
+    },
+    reload: function reload() {
+      this.$router.go({
+        path: this.$router.currentRoute.path,
+        force: true
       });
     }
   }
@@ -86394,7 +86556,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.openEditModal()
+                              return _vm.openEditModal(member)
                             }
                           }
                         },
@@ -87115,7 +87277,681 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v(_vm._s(_vm.btnLabel))]
+                    [_vm._v("登録")]
+                  )
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showEditModal
+        ? _c(
+            "modal",
+            {
+              on: {
+                close: function($event) {
+                  _vm.showEditModal = false
+                }
+              }
+            },
+            [
+              _c("h3", { attrs: { slot: "header" }, slot: "header" }, [
+                _vm._v("ユーザ編集")
+              ]),
+              _vm._v(" "),
+              _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.message !== "",
+                        expression: 'message !== ""'
+                      }
+                    ],
+                    staticClass: "alert alert-danger"
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.message) +
+                        "\n            "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-form-label", attrs: { for: "name" } },
+                    [_vm._v("氏名")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.name,
+                        expression: "name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    class: [_vm.errors.name ? "alert-danger" : ""],
+                    attrs: { type: "text", id: "name", name: "name" },
+                    domProps: { value: _vm.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.name = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.name,
+                          expression: "errors.name"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [_vm._v(_vm._s(_vm.errors.name ? _vm.errors.name[0] : ""))]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-form-label", attrs: { for: "email" } },
+                    [_vm._v("メールアドレス")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.email,
+                        expression: "email"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    class: [_vm.errors.email ? "alert-danger" : ""],
+                    attrs: {
+                      type: "email",
+                      id: "email",
+                      name: "email",
+                      readonly: ""
+                    },
+                    domProps: { value: _vm.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.email = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.email,
+                          expression: "errors.email"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.errors.email ? _vm.errors.email[0] : "")
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-form-label",
+                      attrs: { for: "employeeNo" }
+                    },
+                    [_vm._v("社員番号")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.employeeNo,
+                        expression: "employeeNo"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    class: [_vm.errors.employeeNo ? "alert-danger" : ""],
+                    attrs: {
+                      type: "text",
+                      id: "employeeNo",
+                      name: "employeeNo"
+                    },
+                    domProps: { value: _vm.employeeNo },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.employeeNo = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.employeeNo,
+                          expression: "errors.employeeNo"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.errors.employeeNo ? _vm.errors.employeeNo[0] : ""
+                        )
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-form-label",
+                      attrs: { for: "division" }
+                    },
+                    [_vm._v("部署")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.division,
+                          expression: "division"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: [_vm.errors.division ? "alert-danger" : ""],
+                      attrs: { id: "division", name: "division" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.division = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _vm._l(_vm.divisions, function(divName, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: index } },
+                          [_vm._v(_vm._s(divName))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.division,
+                          expression: "errors.division"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.errors.division ? _vm.errors.division[0] : ""
+                        )
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-form-label",
+                      attrs: { for: "jobCategory" }
+                    },
+                    [_vm._v("職種")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.jobCategory,
+                          expression: "jobCategory"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: [_vm.errors.jobCategory ? "alert-danger" : ""],
+                      attrs: { id: "jobCategory", name: "jobCategory" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.jobCategory = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _vm._l(_vm.jobCategories, function(jobName, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: index } },
+                          [_vm._v(_vm._s(jobName))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.jobCategory,
+                          expression: "errors.jobCategory"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.errors.jobCategory
+                            ? _vm.errors.jobCategory[0]
+                            : ""
+                        )
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-form-label", attrs: { for: "post" } },
+                    [_vm._v("役職")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.post,
+                          expression: "post"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: [_vm.errors.post ? "alert-danger" : ""],
+                      attrs: { id: "post", name: "post" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.post = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _vm._l(_vm.posts, function(postName, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: index } },
+                          [_vm._v(_vm._s(postName))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.post,
+                          expression: "errors.post"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [_vm._v(_vm._s(_vm.errors.post ? _vm.errors.post[0] : ""))]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-form-label",
+                      attrs: { for: "recruitCategory" }
+                    },
+                    [_vm._v("採用区分")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.recruitCategory,
+                          expression: "recruitCategory"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: [_vm.errors.recruitCategory ? "alert-danger" : ""],
+                      attrs: { id: "recruitCategory", name: "recruitCategory" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.recruitCategory = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _vm._l(_vm.recruitType, function(type, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: index } },
+                          [_vm._v(_vm._s(type))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.recruitCategory,
+                          expression: "errors.recruitCategory"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.errors.recruitCategory
+                            ? _vm.errors.recruitCategory[0]
+                            : ""
+                        )
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-form-label",
+                      attrs: { for: "employmentStatus" }
+                    },
+                    [_vm._v("雇用形態")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.employmentStatus,
+                          expression: "employmentStatus"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: [
+                        _vm.errors.employmentStatus ? "alert-danger" : ""
+                      ],
+                      attrs: {
+                        id: "employmentStatus",
+                        name: "employmentStatus"
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.employmentStatus = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }),
+                      _vm._v(" "),
+                      _vm._l(_vm.empStatus, function(stat, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: index } },
+                          [_vm._v(_vm._s(stat))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.employmentStatus,
+                          expression: "errors.employmentStatus"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.errors.employmentStatus
+                            ? _vm.errors.employmentStatus[0]
+                            : ""
+                        )
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-8" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-form-label",
+                      attrs: { for: "joiningAt" }
+                    },
+                    [_vm._v("入社時期")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.joiningAt,
+                        expression: "joiningAt"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    class: [_vm.errors.joiningAt ? "alert-danger" : ""],
+                    attrs: { type: "date", id: "joiningAt", name: "joiningAt" },
+                    domProps: { value: _vm.joiningAt },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.joiningAt = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.joiningAt,
+                          expression: "errors.joiningAt"
+                        }
+                      ],
+                      staticClass: "text-danger"
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.errors.joiningAt ? _vm.errors.joiningAt[0] : ""
+                        )
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "form-group col-md-8",
+                  attrs: { slot: "footer" },
+                  slot: "footer"
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.postEditMember()
+                        }
+                      }
+                    },
+                    [_vm._v("編集")]
                   )
                 ]
               )

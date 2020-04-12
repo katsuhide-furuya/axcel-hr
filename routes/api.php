@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/division/save', 'CompanyController@divisionSave');
     
     Route::post('/member/save', 'UserController@save');
+    Route::post('/member/edit', 'UserController@edit');
     Route::post('/member/delete', 'UserController@delete');
     Route::post('/member/rest', 'UserController@rest');
 });

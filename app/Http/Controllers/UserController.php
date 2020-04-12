@@ -60,9 +60,7 @@ class UserController extends Controller
             'joiningAt' => 'date'
         ];
 
-        Log::debug($request);
         $request->validate($rules);
-
 
         // TODO: 初回ログイン時のパスワード設定, ログインしたらパスワード変えてね的なアレ
         User::create([
@@ -83,5 +81,51 @@ class UserController extends Controller
             'employment_status'=> $request->employmentStatus,
             'joining_at'       => $request->joiningAt,
         ]);
+    }
+
+    /**
+     * Edit user info.
+     * 
+     */
+    public function edit(Request $request)
+    {
+        $rules = [
+            'name'      => 'required|max:100',
+            'joiningAt' => 'date'
+        ];
+
+        $request->validate($rules);
+
+        $userInfo = UserInfo::where('id', $request->id)->first();
+        $userInfo->name              = $request->name;
+        $userInfo->division          = $request->division;
+        $userInfo->job_category      = $request->jobCategory;
+        $userInfo->post              = $request->post;
+        $userInfo->recruit_category  = $request->recruitCategory;
+        $userInfo->employment_status = $request->employmentStatus;
+        $userInfo->joining_at        = $request->joiningAt;
+        $userInfo->save();
+    }
+
+    /**
+     * Delete user info.
+     * 
+     */
+    public function delete(Request $request)
+    {
+        $userInfo = UserInfo::where('id', $request->id)->first();
+        $userInfo->del_flg = 1;
+        $userInfo->save();
+    }
+
+    /**
+     * Rest user info.
+     * 
+     */
+    public function rest(Request $request)
+    {
+        $userInfo = UserInfo::where('id', $request->id)->first();
+        $userInfo->del_flg = 0;
+        $userInfo->save();
     }
 }
