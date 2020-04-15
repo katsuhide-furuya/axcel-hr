@@ -46,19 +46,29 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">ログイン</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">新規登録</a>
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="/members">Members</a>
+                            <li class="nav-item dropdown">
+                                <a id="navbarManageDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    管理メニュー <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarManageDropdown">
+                                    <a class="dropdown-item" href="/periods">評価期間</a>
+                                    <a class="dropdown-item" href="/groups">紐付けグループ</a>
+                                </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/company">Company Info</a>
+                                <a class="nav-link" href="/members">メンバー</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/company">企業情報</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -69,7 +79,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        ログアウト
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -1,9 +1,9 @@
 <template>
     <div class='card'>
         <div class='card-header'>
-            <a v-on:click='selected=1' v-bind:class='[ selected === 1 ? "selected" : "" ]' class='mr-3'>Company</a>
-            <a v-on:click='selected=2' v-bind:class='[ selected === 2 ? "selected" : "" ]' class='mr-3'>Organization</a>
-            <a v-on:click='selected=3' v-bind:class='[ selected === 3 ? "selected" : "" ]' class='mr-3'>Division</a>
+            <a v-on:click='selected=1' v-bind:class='[ selected === 1 ? "selected" : "" ]' class='mr-3'>企業</a>
+            <a v-on:click='selected=2' v-bind:class='[ selected === 2 ? "selected" : "" ]' class='mr-3'>組織</a>
+            <a v-on:click='selected=3' v-bind:class='[ selected === 3 ? "selected" : "" ]' class='mr-3'>部署</a>
         </div>
 
         <div class='card-body'>

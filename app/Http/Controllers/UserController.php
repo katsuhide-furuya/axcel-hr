@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use App\User;
-use App\UserInfo;
-use App\CompanyInfo;
+use App\Models\User;
+use App\Models\UserInfo;
+use App\Models\CompanyInfo;
 
 class UserController extends Controller
 {
@@ -25,6 +24,7 @@ class UserController extends Controller
     /**
      * Show the users.
      * 
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {

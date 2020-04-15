@@ -30,6 +30,8 @@ Vue.component('company-component', require('./components/company/CompanyComponen
 Vue.component('company-tab-component', require('./components/company/CompanyTabComponent.vue').default);
 Vue.component('organization-tab-component', require('./components/company/OrganizationTabComponent.vue').default);
 Vue.component('division-tab-component', require('./components/company/DivisionTabComponent.vue').default);
+Vue.component('period-component', require('./components/manage/PeriodComponent.vue').default);
+Vue.component('group-component', require('./components/manage/GroupComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

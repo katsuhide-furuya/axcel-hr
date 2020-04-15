@@ -25,6 +25,13 @@ Route::get('/members', 'UserController@index');
 
 Route::get('/company', 'CompanyController@index');
 
+Route::get('/periods', 'PeriodController@index');
+Route::get('/groups', 'GroupController@index');
+
+Route::get('/overview', 'OverviewController@index');
+
+Route::get('/objectives', 'ObjectiveController@index');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

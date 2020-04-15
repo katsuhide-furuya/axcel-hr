@@ -1,20 +1,20 @@
 <template>
     <div class='card'>
-        <div class='card-header'>Members
-            <button type='button' class='btn btn-success float-right mr-1'>ADD ALL</button>
-            <button v-on:click='showAddModal = !showAddModal' type='button' class='btn btn-primary float-right mr-1'>ADD</button>
+        <div class='card-header'>メンバー
+            <button type='button' class='btn btn-success float-right mr-1'>一括で追加</button>
+            <button v-on:click='showAddModal = !showAddModal' type='button' class='btn btn-primary float-right mr-1'>追加</button>
         </div>
 
         <div class='card-body'>
             <table class='table table-bordered table-base'>
                 <thead>
                     <tr>
-                        <th class='text-center bg-light'>Nmae</th>
-                        <th class='text-center bg-light'>Joining at</th>
-                        <th class='text-center bg-light'>Recruit Cate.</th>
-                        <th class='text-center bg-light'>Employment Stat.</th>
-                        <th class='text-center bg-light'>Post</th>
-                        <th class='text-center bg-light'>Division</th>
+                        <th class='text-center bg-light'>氏名</th>
+                        <th class='text-center bg-light'>入社日</th>
+                        <th class='text-center bg-light'>採用区分</th>
+                        <th class='text-center bg-light'>雇用形態</th>
+                        <th class='text-center bg-light'>役職</th>
+                        <th class='text-center bg-light'>部署</th>
                         <th class='text-center bg-light'></th>
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@
             </table>
         </div>
 
-        <modal v-if='showAddModal' @close='showAddModal = false'>
+        <modal v-if='showAddModal' @close='closeModal()'>
             <h3 slot='header'>ユーザ登録</h3>
             <div slot='body'>
                 <div v-show='message !== ""' class="alert alert-danger">
@@ -125,7 +125,7 @@
             </div>
         </modal>
 
-        <modal v-if='showEditModal' @close='showEditModal = false'>
+        <modal v-if='showEditModal' @close='closeModal()'>
             <h3 slot='header'>ユーザ編集</h3>
             <div slot='body'>
                 <div v-show='message !== ""' class="alert alert-danger">

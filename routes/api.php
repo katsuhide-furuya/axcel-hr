@@ -27,5 +27,15 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/member/edit', 'UserController@edit');
     Route::post('/member/delete', 'UserController@delete');
     Route::post('/member/rest', 'UserController@rest');
+
+    Route::post('/group/save', 'GroupController@save');
+    Route::post('/group/edit', 'GroupController@edit');
+    Route::post('/group/delete', 'GroupController@delete');
+    Route::post('/group/rest', 'GroupController@rest');
+
+    Route::post('/period/save', 'PeriodController@save');
+    Route::post('/period/edit', 'PeriodController@edit');
+    Route::post('/period/delete', 'PeriodController@delete');
+    Route::post('/period/rest', 'PeriodController@rest');
 });
 
