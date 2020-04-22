@@ -37,28 +37,25 @@
                 <div class='col-md-11'>
                     <div class='row'>
                         <div class='form-group col-md-3'>
-                            <label class='col-form-label' for='target'>個人目標</label>
-                            <textarea v-model='objectives[index].target' type='text' class='form-control' id='target' name='target'
-                                :readonly='isOthers'/>
+                            <label class='col-form-label'>個人目標</label>
+                            <textarea v-model='objectives[index].target' type='text' class='form-control' :readonly='isOthers'/>
                         </div>
 
                         <div class='form-group col-md-3'>
-                            <label class='col-form-label' for='limitAndAchievement'>期限/基準</label>
-                            <textarea v-model='objectives[index].limitAndAchievement' type='text' class='form-control' id='limitAndAchievement' name='limitAndAchievement'
-                                :readonly='isOthers'/>
+                            <label class='col-form-label'>期限/基準</label>
+                            <textarea v-model='objectives[index].limitAndAchievement' type='text' class='form-control' :readonly='isOthers'/>
                         </div>
 
                         <div class='form-group col-md-3'>
-                            <label class='col-form-label' for='retrospective'>振り返り</label>
-                            <textarea v-model='objectives[index].retrospective' type='text' class='form-control' id='retrospective' name='retrospective'
-                                :readonly='isOthers'/>
+                            <label class='col-form-label'>振り返り</label>
+                            <textarea v-model='objectives[index].retrospective' type='text' class='form-control' :readonly='isOthers'/>
                         </div>
 
                         <div class='form-group col-md-2'>
-                            <label class='col-form-label' for='score'>達成率</label>
+                            <label class='col-form-label'>達成率</label>
                             <div class='score-box'>
                                 <div class='score-input-area'>
-                                    <input v-model='objectives[index].score' type='text' class='form-control score-input' id='score' name='score' :maxLength=3
+                                    <input v-model='objectives[index].score' type='text' class='form-control score-input' :maxLength=3
                                         :readonly='isOthers'>
                                 </div>
                                 <div class='percent-area'>%</div>
@@ -69,28 +66,25 @@
                     <div class='intarget-box'>
                         <div v-for='(inTarget, idx) in objective.inTarget' :key='`objective-intarge-${idx}`' class='row pl-15'>
                             <div class='form-group col-md-3'>
-                                <label class='col-form-label' for='inTarget'>中目標</label>
-                                <textarea v-model='objectives[index].inTarget[idx].target' type='text' class='form-control' id='inTarget' name='inTarget'
-                                    :readonly='isOthers'/>
+                                <label class='col-form-label'>中目標</label>
+                                <textarea v-model='objectives[index].inTarget[idx].target' type='text' class='form-control' :readonly='isOthers'/>
                             </div>
 
                             <div class='form-group col-md-3'>
-                                <label class='col-form-label' for='inTargetStatus'>ステータス</label>
-                                <textarea v-model='objectives[index].inTarget[idx].status' type='text' class='form-control' id='inTargetStatus' name='inTargetStatus'
-                                    :readonly='isOthers'/>
+                                <label class='col-form-label'>ステータス</label>
+                                <textarea v-model='objectives[index].inTarget[idx].status' type='text' class='form-control' :readonly='isOthers'/>
                             </div>
 
                             <div class='form-group col-md-3'>
-                                <label class='col-form-label' for='inTargetRetrospective'>振り返り</label>
-                                <textarea v-model='objectives[index].inTarget[idx].retrospective' type='text' class='form-control' id='inTargetRetrospective' name='inTargetRetrospective'
-                                    :readonly='isOthers'/>
+                                <label class='col-form-label'>振り返り</label>
+                                <textarea v-model='objectives[index].inTarget[idx].retrospective' type='text' class='form-control' :readonly='isOthers'/>
                             </div>
 
                             <div class='form-group col-md-2'>
-                                <label class='col-form-label' for='inTargetScore'>達成率</label>
+                                <label class='col-form-label'>達成率</label>
                                 <div class='score-box'>
                                     <div class='score-input-area'>
-                                        <input v-model='objectives[index].inTarget[idx].score' type='text' class='form-control score-input' id='inTargetScore' name='inTargetScore' :maxLength=3
+                                        <input v-model='objectives[index].inTarget[idx].score' type='text' class='form-control score-input' :maxLength=3
                                             :readonly='isOthers'>
                                     </div>
                                     <div class='percent-area'>%</div>
@@ -121,16 +115,16 @@
                 <div class='col-md-11'>
                     <div class='row'>
                         <div class='form-group col-md-12'>
-                            <label class='col-form-label' for='target'>進捗詳細</label>
-                            <textarea v-model='objectives[index].target' type='text' class='form-control' id='target' name='target' :readonly='isRater'/>
+                            <label class='col-form-label'>進捗詳細</label>
+                            <textarea v-model='objectives[index].target' type='text' class='form-control' :readonly='isRater'/>
                         </div>
                     </div>
 
                     <div class='intarget-box'>
                         <div v-for='(inTarget, idx) in objective.inTarget' :key='`progress-intarget-${idx}`' class='row pl-15'>
                             <div class='form-group col-md-12'>
-                                <label class='col-form-label' for='inTarget'>評価者コメント</label>
-                                <textarea v-model='objectives[index].inTarget[idx].target' type='text' class='form-control' id='inTarget' name='inTarget' :readonly='!isRater'/>
+                                <label class='col-form-label'>評価者コメント</label>
+                                <textarea v-model='objectives[index].inTarget[idx].target' type='text' class='form-control' :readonly='!isRater'/>
                             </div>
                         </div>
                     </div>
@@ -148,6 +142,15 @@
                     <button v-show='!isOthers && entity.status === 3' v-on:click='postRetrospective()' type='button' class='btn btn-success float-right'>振り返り完了/評価依頼</button>
                     <button v-show='isRater && entity.status === 2' v-on:click='postApprove()' type='button' class='btn btn-success float-right'>目標を承認する</button>
                     <button v-show='isRater && entity.status === 4' v-on:click='postLastEvaluate()' type='button' class='btn btn-success float-right'>最終評価する</button>
+                    <select v-show='isRater && entity.status === 4' v-model='totalScore' class='form-control float-right total-score-dropdown'>
+                        <option value='S'>S</option>
+                        <option value='A+'>A+</option>
+                        <option value='A'>A</option>
+                        <option value='B+'>B+</option>
+                        <option value='B'>B</option>
+                        <option value='C'>C</option>
+                        <option value='D'>D</option>
+                    </select>
                 </div>
             </div>
 
@@ -209,6 +212,10 @@
     border-left: 1px solid #ced4da !important;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
 }
+.total-score-dropdown {
+    width: 25% !important;
+    margin-right: 15px;
+}
 </style>
 
 <script>
@@ -238,7 +245,7 @@
         data() {
             return {
                 objectives: [],
-                btnLabel: '',
+                totalScore: '',
                 isOthers: false,
                 isRater: false,
                 message: '',
@@ -310,10 +317,20 @@
                 })
             },
             postRetrospective: function() {
+                let totalProgress = 0
+                if (this.entity.sheet.sheet_kind === 'OBJECTIVE') {
+                    let sumScore = 0
+                    this.objectives.forEach(o => {
+                        sumScore += parseInt(o.score)
+                    })
+                    totalProgress = parseInt(sumScore / this.objectives.length)
+                }
+
                 let data = {
-                    'id'         : this.entity.id,
-                    'objectives' : this.objectives,
-                    'status'     : 4
+                    'id'            : this.entity.id,
+                    'objectives'    : this.objectives,
+                    'status'        : 4,
+                    'totalProgress' : totalProgress
                 }
 
                 axios.post('/api/entity/restrospective', data).then(res => {
@@ -330,7 +347,8 @@
                 let data = {
                     'id'         : this.entity.id,
                     'objectives' : this.objectives,
-                    'status'     : 5
+                    'status'     : 5,
+                    'totalScore' : this.totalScore
                 }
 
                 axios.post('/api/entity/lastEvaluate', data).then(res => {

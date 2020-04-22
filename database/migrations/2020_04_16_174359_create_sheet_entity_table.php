@@ -20,7 +20,7 @@ class CreateSheetEntityTable extends Migration
             $table->integer('rater_id');
             $table->json('objective')->nullable();
             $table->integer('total_progress')->nullable();
-            $table->integer('total_score')->nullable();
+            $table->string('total_score')->nullable();
             $table->integer('status')->default(0);
             $table->integer('del_flg')->default(0);
             $table->timestamps();

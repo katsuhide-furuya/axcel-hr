@@ -38,6 +38,14 @@ class SheetEntityController extends Controller
         $entity = SheetEntity::where('id', $request->id)->first();
         $entity->objective = json_encode($request->objectives, JSON_PRETTY_PRINT);
         $entity->status = $request->status;
+
+        if ($request->totalProgress) {
+            $entity->total_progress = $request->totalProgress;
+        }
+
+        if ($request->totalScore) {
+            $entity->total_score = $request->totalScore;
+        }
         $entity->save();
 
         // 被評価者・評価者にメール
