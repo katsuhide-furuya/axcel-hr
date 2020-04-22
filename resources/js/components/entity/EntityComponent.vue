@@ -142,7 +142,7 @@
                     <button v-show='!isOthers && entity.status === 3' v-on:click='postRetrospective()' type='button' class='btn btn-success float-right'>振り返り完了/評価依頼</button>
                     <button v-show='isRater && entity.status === 2' v-on:click='postApprove()' type='button' class='btn btn-success float-right'>目標を承認する</button>
                     <button v-show='isRater && entity.status === 4' v-on:click='postLastEvaluate()' type='button' class='btn btn-success float-right'>最終評価する</button>
-                    <select v-show='isRater && entity.status === 4' v-model='totalScore' class='form-control float-right total-score-dropdown'>
+                    <select v-show='isRater && (entity.status === 4 || entity.status === 5)' v-model='entity.total_score' class='form-control float-right total-score-dropdown' :disabled='entity.status === 5'>
                         <option value='S'>S</option>
                         <option value='A+'>A+</option>
                         <option value='A'>A</option>
@@ -245,7 +245,6 @@
         data() {
             return {
                 objectives: [],
-                totalScore: '',
                 isOthers: false,
                 isRater: false,
                 message: '',
@@ -348,7 +347,7 @@
                     'id'         : this.entity.id,
                     'objectives' : this.objectives,
                     'status'     : 5,
-                    'totalScore' : this.totalScore
+                    'totalScore' : this.entity.total_score
                 }
 
                 axios.post('/api/entity/lastEvaluate', data).then(res => {
