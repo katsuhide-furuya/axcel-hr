@@ -2,28 +2,12 @@
 <template>
     <div>
         <div class='form-group col-md-8 mb-0'>
-            <label v-on:click='selected = 1' v-bind:class='[ selected === 1 ? "selected" : "" ]' class='col-form-label'>職種</label>
+            <label v-on:click='selected = 1' :class='[ selected === 1 ? "selected" : "" ]' class='col-form-label'>職種</label>
         </div>
 
         <!-- 職種 -->
         <div v-show='selected === 1' class='form-group col-md-8'>
-            <div v-show='jobCate.length === 0'>
-                <div class='row'>
-                    <div class='form-group col-md-8'>
-                        <input type='text' class='form-control' name='jobCategoryName[]'>
-                    </div>
-
-                    <div class='form-group mr-2'>
-                        <v-icon name='plus-circle' scale='2'></v-icon>
-                    </div>
-                    
-                    <div class='form-group'>
-                        <v-icon name='minus-circle' scale='2'></v-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div v-show='jobCate.length !== 0' v-for='(job, index) in jobCate' :key='index'>
+            <div v-for='(job, index) in jobCate' :key='index'>
                 <div class='row'>
                     <div class='form-group col-md-8'>
                         <input type='text' class='form-control' name='jobCategoryName[]' :value='job' @input='changeValue(index, $event)'>
@@ -43,28 +27,12 @@
         <hr>
 
         <div class='form-group col-md-8 mb-0'>
-            <label v-on:click='selected = 2' v-bind:class='[ selected === 2 ? "selected" : "" ]' class='col-form-label'>役職</label>
+            <label v-on:click='selected = 2' :class='[ selected === 2 ? "selected" : "" ]' class='col-form-label'>役職</label>
         </div>
 
         <!-- 役職 -->
         <div v-show='selected === 2' class='form-group col-md-8'>
-            <div v-show='post.length === 0'>
-                <div class='row'>
-                    <div class='form-group col-md-8'>
-                        <input type='text' class='form-control' name='postName[]'>
-                    </div>
-
-                    <div class='form-group mr-2'>
-                        <v-icon name='plus-circle' scale='2'></v-icon>
-                    </div>
-                    
-                    <div class='form-group'>
-                        <v-icon name='minus-circle' scale='2'></v-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div v-show='post.length !== 0' v-for='(name, index) in post' :key='index'>
+            <div v-for='(name, index) in post' :key='index'>
                 <div class='row'>
                     <div class='form-group col-md-8'>
                         <input type='text' class='form-control' name='postName[]' :value='name' @input='changeValue(index, $event)'>
@@ -84,28 +52,12 @@
         <hr>
 
         <div class='form-group col-md-8 mb-0'>
-            <label v-on:click='selected = 3' v-bind:class='[ selected === 3 ? "selected" : "" ]' class='col-form-label'>採用区分</label>
+            <label v-on:click='selected = 3' :class='[ selected === 3 ? "selected" : "" ]' class='col-form-label'>採用区分</label>
         </div>
 
         <!-- 採用区分 -->
         <div v-show='selected === 3' class='form-group col-md-8'>
-            <div v-show='recruit.length === 0'>
-                <div class='row'>
-                    <div class='form-group col-md-8'>
-                        <input type='text' class='form-control' name='recruitTypeName[]'>
-                    </div>
-
-                    <div class='form-group mr-2'>
-                        <v-icon name='plus-circle' scale='2'></v-icon>
-                    </div>
-                    
-                    <div class='form-group'>
-                        <v-icon name='minus-circle' scale='2'></v-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div v-show='recruit.length !== 0' v-for='(type, index) in recruit' :key='index'>
+            <div v-for='(type, index) in recruit' :key='index'>
                 <div class='row'>
                     <div class='form-group col-md-8'>
                         <input type='text' class='form-control' name='recruitTypeName[]' :value='type' @input='changeValue(index, $event)'>
@@ -125,28 +77,12 @@
         <hr>
 
         <div class='form-group col-md-8 mb-0'>
-            <label v-on:click='selected = 4' v-bind:class='[ selected === 4 ? "selected" : "" ]' class='col-form-label'>雇用形態</label>
+            <label v-on:click='selected = 4' :class='[ selected === 4 ? "selected" : "" ]' class='col-form-label'>雇用形態</label>
         </div>
 
         <!-- 雇用形態 -->
         <div v-show='selected === 4' class='form-group col-md-8'>
-            <div v-show='empStat.length === 0'>
-                <div class='row'>
-                    <div class='form-group col-md-8'>
-                        <input type='text' class='form-control' name='empStatusName[]'>
-                    </div>
-
-                    <div class='form-group mr-2'>
-                        <v-icon name='plus-circle' scale='2'></v-icon>
-                    </div>
-                    
-                    <div class='form-group'>
-                        <v-icon name='minus-circle' scale='2'></v-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div v-show='empStat.length !== 0' v-for='(stat, index) in empStat' :key='index'>
+            <div v-for='(stat, index) in empStat' :key='index'>
                 <div class='row'>
                     <div class='form-group col-md-8'>
                         <input type='text' class='form-control' name='empStatusName[]' :value='stat' @input='changeValue(index, $event)'>
@@ -178,13 +114,21 @@
 
 <script>
     export default {
-        props:[
+        props: [
             'jobCategory',
             'posts',
             'recruitType',
             'empStatus',
         ],
-        data(){
+        mounted() {
+            axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + Laravel.apiToken,
+                'Accept' : 'application/json',
+            }
+        },
+        data() {
             return {
                 selected: 0,
                 jobCate: this.jobCategory.jobCategory,
@@ -256,13 +200,10 @@
                     'empStatusName'   : this.empStat,
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                };
-
                 axios.post('/api/organization/save', data).then(res => {
-                    console.log(res)
+                    this.toastSuccess('更新しました。')
+                }).catch(err => {
+                    this.toastError('更新に失敗しました。')
                 })
             }
         }

@@ -23,8 +23,8 @@
 
                     <tr v-show='groups.length !== 0' v-for='(group, index) in groups' :key='index'>
                         <td class='text-center align-middle'>{{ group.group_name }}</td>
-                        <td class='text-center align-middle'>{{ group.evaluators_count }}</td>
-                        <td class='text-center align-middle'>{{ group.valuators_count }}</td>
+                        <td class='text-center align-middle'>{{ group.evaluatee_count }}</td>
+                        <td class='text-center align-middle'>{{ group.rater_count }}</td>
                         <td class='text-center align-middle'>
                             <button v-on:click='openEditModal(group)' type='button' class='btn btn-outline-success'>編集</button>
                             <button v-show='group.del_flg === 0' v-on:click='deleteGroup(group.id)' type='button' class='btn btn-outline-danger'>削除</button>
@@ -44,7 +44,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='groupName'>グループ名</label>
-                    <input v-model='groupName' type='text' class='form-control' id='groupName' name='groupName' v-bind:class='[ errors.groupName ? "alert-danger" : "" ]'>
+                    <input v-model='groupName' type='text' class='form-control' id='groupName' name='groupName' :class='[ errors.groupName ? "alert-danger" : "" ]'>
                     <label v-show='errors.groupName' class='text-danger'>{{ errors.groupName ? errors.groupName[0] : '' }}</label>
                 </div>
 
@@ -53,19 +53,19 @@
                         <button v-on:click='add()' type='button' class='btn btn-success'>紐付けを追加</button>（被評価者：評価者）
                     </div>
 
-                    <div v-for='(name, index) in evaluators' :key='index'>
+                    <div v-for='(name, index) in evaluatee' :key='index'>
                         <div class='row'>
                             <div class='form-group col-md-5'>
-                                <select class='form-control' id='evaluators' @change='changeEvaluatorValue(index, $event)'>
+                                <select class='form-control' id='evaluatee' @change='changeEvaluateeValue(index, $event)'>
                                     <option value=''></option>
-                                    <option v-for='(user, index) in users' :key='index' :value='user.name'>{{ user.name }}</option>
+                                    <option v-for='(user, index) in users' :key='index' :value='user.id'>{{ user.name }}</option>
                                 </select>
                             </div>
 
                             <div class='form-group col-md-5'>
-                                <select class='form-control' id='valuators' @change='changeValuatorValue(index, $event)'>
+                                <select class='form-control' id='rater' @change='changeRaterValue(index, $event)'>
                                     <option value=''></option>
-                                    <option v-for='(user, index) in users' :key='index' :value='user.name'>{{ user.name }}</option>
+                                    <option v-for='(user, index) in users' :key='index' :value='user.id'>{{ user.name }}</option>
                                 </select>
                             </div>
 
@@ -90,7 +90,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='groupName'>グループ名</label>
-                    <input v-model='groupName' type='text' class='form-control' id='groupName' name='groupName' v-bind:class='[ errors.groupName ? "alert-danger" : "" ]'>
+                    <input v-model='groupName' type='text' class='form-control' id='groupName' name='groupName' :class='[ errors.groupName ? "alert-danger" : "" ]'>
                     <label v-show='errors.groupName' class='text-danger'>{{ errors.groupName ? errors.groupName[0] : '' }}</label>
                 </div>
 
@@ -99,19 +99,19 @@
                         <button v-on:click='add()' type='button' class='btn btn-success'>紐付けを追加</button>（被評価者：評価者）
                     </div>
 
-                    <div v-for='(name, index) in evaluators' :key='index'>
+                    <div v-for='(eId, index) in evaluatee' :key='index'>
                         <div class='row'>
                             <div class='form-group col-md-5'>
-                                <select class='form-control' id='evaluators' @change='changeEvaluatorValue(index, $event)'>
+                                <select class='form-control' id='evaluatee' @change='changeEvaluateeValue(index, $event)'>
                                     <option value=''></option>
-                                    <option v-for='(user, idx) in users' :key='idx' :value='user.name' :selected='user.name == name ? "selected" : ""'>{{ user.name }}</option>
+                                    <option v-for='(user, idx) in users' :key='idx' :value='user.id' :selected='user.id == eId ? "selected" : ""'>{{ user.name }}</option>
                                 </select>
                             </div>
 
                             <div class='form-group col-md-5'>
-                                <select class='form-control' id='valuators' @change='changeValuatorValue(index, $event)'>
+                                <select class='form-control' id='rater' @change='changeRaterValue(index, $event)'>
                                     <option value=''></option>
-                                    <option v-for='(user, idx) in users' :key='idx' :value='user.name' :selected='user.name == valuators[index] ? "selected" : ""'>{{ user.name }}</option>
+                                    <option v-for='(user, idx) in users' :key='idx' :value='user.id' :selected='user.id == rater[index] ? "selected" : ""'>{{ user.name }}</option>
                                 </select>
                             </div>
 
@@ -140,16 +140,24 @@
 
 <script>
     export default {
-        props:[
+        props:[ 
             'groups',
             'users',
         ],
-        data(){
+        mounted() {
+            axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + Laravel.apiToken,
+                'Accept' : 'application/json',
+            }
+        },
+        data() {
             return {
                 id: '',
                 groupName: '',
-                evaluators: [''],
-                valuators: [''],
+                evaluatee: [''],
+                rater: [''],
                 showAddModal: false,
                 showEditModal: false,
                 message: '',
@@ -165,51 +173,46 @@
                 this.errors = []
 
                 this.groupName = ''
-                this.evaluators = ['']
-                this.valuators = ['']
+                this.evaluatee = ['']
+                this.rater = ['']
             },
             add: function() {
-                this.evaluators.push('')
-                this.valuators.push('')
+                this.evaluatee.push('')
+                this.rater.push('')
             },
             remove: function(index) {
-                if (this.evaluators.length !== 1) this.evaluators.splice(index, 1)
-                if (this.valuators.length !== 1) this.valuators.splice(index, 1)
+                if (this.evaluatee.length !== 1) this.evaluatee.splice(index, 1)
+                if (this.rater.length !== 1) this.rater.splice(index, 1)
             },
-            changeEvaluatorValue(index, e) {
-                this.evaluators.splice(index, 1, e.target.value);
+            changeEvaluateeValue(index, e) {
+                this.evaluatee.splice(index, 1, e.target.value);
             },
-            changeValuatorValue(index, e) {
-                this.valuators.splice(index, 1, e.target.value);
+            changeRaterValue(index, e) {
+                this.rater.splice(index, 1, e.target.value);
             },
             postGroup: function() {
-                let arr = this.valuators
+                let arr = this.rater
                 let set = new Set(arr)
                 let setToArr = [...set];
 
                 let data = {
-                    'groupName'       : this.groupName,
-                    'evaluators'      : this.evaluators,
-                    'evaluatorsCount' : this.evaluators.length,
-                    'valuators'       : this.valuators,
-                    'valuatorsCount'  : setToArr.length,
+                    'groupName'      : this.groupName,
+                    'evaluatee'      : this.evaluatee,
+                    'evaluateeCount' : this.evaluatee.length,
+                    'rater'          : this.rater,
+                    'raterCount'     : setToArr.length,
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                    'Accept' : 'application/json',
-                };
-
                 axios.post('/api/group/save', data).then(res => {
+                    this.toastSuccess('登録しました。')
                     this.message = ''
                     this.errors = []
                     this.showAddModal = false
                     this.groupName = ''
-                    this.evaluators = ['']
-                    this.valuators = ['']
+                    this.evaluatee = ['']
+                    this.rater = ['']
                 }).catch(err => {
+                    this.toastError('登録に失敗しました。')
                     this.message = err.response.data.message
                     this.errors = err.response.data.errors
                 })
@@ -217,41 +220,36 @@
             openEditModal: function(group) {
                 this.id = group.id
                 this.groupName = group.group_name
-                this.evaluators = JSON.parse(group.evaluators)
-                this.valuators = JSON.parse(group.valuators)
+                this.evaluatee = JSON.parse(group.evaluatee)
+                this.rater = JSON.parse(group.rater)
 
                 this.showEditModal = true
             },
             postEditGroup: function() {
-                let arr = this.valuators
+                let arr = this.rater
                 let set = new Set(arr)
                 let setToArr = [...set];
 
                 let data = {
-                    'id'              : this.id,
-                    'groupName'       : this.groupName,
-                    'evaluators'      : this.evaluators,
-                    'evaluatorsCount' : this.evaluators.length,
-                    'valuators'       : this.valuators,
-                    'valuatorsCount'  : setToArr.length,
+                    'id'             : this.id,
+                    'groupName'      : this.groupName,
+                    'evaluatee'      : this.evaluatee,
+                    'evaluateeCount' : this.evaluatee.length,
+                    'rater'          : this.rater,
+                    'raterCount'     : setToArr.length,
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                    'Accept' : 'application/json',
-                };
-
                 axios.post('/api/group/edit', data).then(res => {
+                    this.toastSuccess('更新しました。')
                     this.message = ''
                     this.errors = []
                     this.showEditModal = false
                     this.id = ''
                     this.groupName = ''
-                    this.evaluators = ['']
-                    this.valuators = ['']
+                    this.evaluatee = ['']
+                    this.rater = ['']
                 }).catch(err => {
+                    this.toastError('更新に失敗しました。')
                     this.message = err.response.data.message
                     this.errors = err.response.data.errors
                 })
@@ -261,16 +259,10 @@
                     'id': id
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                };
-
                 axios.post('/api/group/delete', data).then(res => {
-                    console.log(res)
+                    this.toastSuccess('削除しました。')
                 }).catch(err => {
-                    console.log(err)
+                    this.toastError('削除に失敗しました。')
                 })
             },
             restGroup: function(id) {
@@ -278,16 +270,10 @@
                     'id': id
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                };
-
                 axios.post('/api/group/rest', data).then(res => {
-                    console.log(res)
+                    this.toastSuccess('戻しました。')
                 }).catch(err => {
-                    console.log(err)
+                    this.toastError('戻すのに失敗しました。')
                 })
             }
         }

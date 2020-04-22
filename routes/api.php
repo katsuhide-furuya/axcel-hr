@@ -37,5 +37,17 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/period/edit', 'PeriodController@edit');
     Route::post('/period/delete', 'PeriodController@delete');
     Route::post('/period/rest', 'PeriodController@rest');
+
+    Route::post('/sheet/save', 'SheetController@save');
+    Route::post('/sheet/edit', 'SheetController@edit');
+    Route::post('/sheet/delete', 'SheetController@delete');
+    Route::post('/sheet/rest', 'SheetController@rest');
+
+    Route::post('/entity/edit', 'SheetEntityController@edit');
+    Route::post('/entity/approve', 'SheetEntityController@edit');
+    Route::post('/entity/restrospective', 'SheetEntityController@edit');
+    Route::post('/entity/lastEvaluate', 'SheetEntityController@edit');
+    Route::post('/entity/raterComment', 'SheetEntityController@edit');
+
 });
 

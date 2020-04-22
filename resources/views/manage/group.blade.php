@@ -7,8 +7,8 @@
     <div class='row justify-content-center'>
         <div class='col-md-12'>
             <group-component
-                v-bind:groups='{{ $groups }}'
-                v-bind:users='{{ $users }}'>
+                :groups='{{ $groups }}'
+                :users='{{ $users }}'>
             </group-component>
         </div>
     </div>

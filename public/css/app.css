@@ -10882,3 +10882,7 @@ a.text-dark:focus {
   }
 }
 
+.container {
+  max-width: 95vw !important;
+}
+

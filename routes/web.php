@@ -26,7 +26,12 @@ Route::get('/members', 'UserController@index');
 Route::get('/company', 'CompanyController@index');
 
 Route::get('/periods', 'PeriodController@index');
+
 Route::get('/groups', 'GroupController@index');
+
+Route::get('/sheets', 'SheetController@index');
+
+Route::get('/entity/{id}', 'SheetEntityController@index');
 
 Route::get('/overview', 'OverviewController@index');
 

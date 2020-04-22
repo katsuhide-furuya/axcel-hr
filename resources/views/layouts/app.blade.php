@@ -62,6 +62,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarManageDropdown">
                                     <a class="dropdown-item" href="/periods">評価期間</a>
                                     <a class="dropdown-item" href="/groups">紐付けグループ</a>
+                                    <a class="dropdown-item" href="/sheets">シート</a>
                                 </div>
                             </li>
                             <li class="nav-item">

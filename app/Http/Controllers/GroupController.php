@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use App\Models\Group;
 use App\Models\UserInfo;
 
@@ -37,21 +39,21 @@ class GroupController extends Controller
     public function save(Request $request)
     {
         $rules = [
-            'groupName'       => 'required|max:100',
-            'evaluators'      => 'required',
-            'evaluatorsCount' => 'required',
-            'valuators'       => 'required',
-            'valuatorsCount'  => 'required'
+            'groupName'      => 'required|max:100',
+            'evaluatee'      => 'required',
+            'evaluateeCount' => 'required',
+            'rater'          => 'required',
+            'raterCount'     => 'required'
         ];
 
         $request->validate($rules);
 
         Group::create([
-            'group_name'       => $request->groupName,
-            'evaluators'       => json_encode($request->evaluators, JSON_PRETTY_PRINT),
-            'evaluators_count' => $request->evaluatorsCount,
-            'valuators'        => json_encode($request->valuators, JSON_PRETTY_PRINT),
-            'valuators_count'  => $request->valuatorsCount,
+            'group_name'      => $request->groupName,
+            'evaluatee'       => json_encode($request->evaluatee, JSON_PRETTY_PRINT),
+            'evaluatee_count' => $request->evaluateeCount,
+            'rater'           => json_encode($request->rater, JSON_PRETTY_PRINT),
+            'rater_count'     => $request->raterCount,
         ]);
     }
 
@@ -62,21 +64,23 @@ class GroupController extends Controller
     public function edit(Request $request)
     {
         $rules = [
-            'groupName'       => 'required|max:100',
-            'evaluators'      => 'required',
-            'evaluatorsCount' => 'required',
-            'valuators'       => 'required',
-            'valuatorsCount'  => 'required'
+            'groupName'      => 'required|max:100',
+            'evaluatee'      => 'required',
+            'evaluateeCount' => 'required',
+            'rater'          => 'required',
+            'raterCount'     => 'required'
         ];
+
+        Log::debug($request);
 
         $request->validate($rules);
 
         $group = Group::where('id', $request->id)->first();
-        $group->group_name       = $request->name;
-        $group->evaluators       = $request->division;
-        $group->evaluators_count = $request->jobCategory;
-        $group->valuators        = $request->post;
-        $group->valuators_count  = $request->recruitCategory;
+        $group->group_name      = $request->groupName;
+        $group->evaluatee       = json_encode($request->evaluatee, JSON_PRETTY_PRINT);
+        $group->evaluatee_count = $request->evaluateeCount;
+        $group->rater           = json_encode($request->rater, JSON_PRETTY_PRINT);
+        $group->rater_count     = $request->raterCount;
         $group->save();
     }
 

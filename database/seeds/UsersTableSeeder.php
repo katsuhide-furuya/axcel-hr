@@ -13,35 +13,35 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name'      => 'Yuji Nakagawa',
+            'name'      => '中川 裕二',
             'email'     => 'nakagawa@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
         ]);
 
         DB::table('users')->insert([
-            'name'      => 'Yui Yuzuki',
+            'name'      => '柚木 結衣',
             'email'     => 'lucia15iris@gmail.com',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
         ]);
 
         DB::table('users')->insert([
-            'name'      => 'Gumika Aoumi',
+            'name'      => '蒼海 グミカ',
             'email'     => 'nakagawa-test1@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
         ]);
 
         DB::table('users')->insert([
-            'name'      => 'Ui Kamishiro',
+            'name'      => '神代 憂',
             'email'     => 'nakagawa-test2@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
         ]);
 
         DB::table('users')->insert([
-            'name'      => 'Moku hiyochan',
+            'name'      => 'もくひよちゃん',
             'email'     => 'nakagawa-mokuhiyo@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),

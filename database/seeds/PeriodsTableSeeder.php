@@ -12,7 +12,7 @@ class PeriodsTableSeeder extends Seeder
     public function run()
     {
         DB::table('periods')->insert([
-            'period_name' => 'Test Period',
+            'period_name' => 'テスト評価期1',
             'start_date'  => '2020-04-01',
             'end_date'    => '2020-12-31',
             'status'      => 0

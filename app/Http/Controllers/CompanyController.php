@@ -42,7 +42,7 @@ class CompanyController extends Controller
         $divisions = CompanyInfo::where('key', 'division')->get();
         if ($divisions->isNotEmpty()) $divisions = $divisions->first()->value;
 
-        return view('company', compact('companyInfo', 'jobCategory', 'posts', 'recruitType', 'empStatus', 'divisions'));
+        return view('company/company', compact('companyInfo', 'jobCategory', 'posts', 'recruitType', 'empStatus', 'divisions'));
     }
 
     /**
@@ -122,22 +122,22 @@ class CompanyController extends Controller
         }
 
         $job = $request->jobCategoryName;
-        $jobCategory->key = 'job_category';
+        $jobCategory->key   = 'job_category';
         $jobCategory->value = json_encode($job, JSON_PRETTY_PRINT);
         $jobCategory->save();
 
         $post = $request->postName;
-        $posts->key = 'post';
+        $posts->key   = 'post';
         $posts->value = json_encode($post, JSON_PRETTY_PRINT);
         $posts->save();
 
         $recruit = $request->recruitTypeName;
-        $recruitType->key = 'recruit';
+        $recruitType->key   = 'recruit';
         $recruitType->value = json_encode($recruit, JSON_PRETTY_PRINT);
         $recruitType->save();
 
         $empStat = $request->empStatusName;
-        $employmentStatus->key = 'employment_status';
+        $employmentStatus->key   = 'employment_status';
         $employmentStatus->value = json_encode($empStat, JSON_PRETTY_PRINT);
         $employmentStatus->save();
     }
@@ -157,7 +157,7 @@ class CompanyController extends Controller
         }
 
         $division = $request->divisionName;
-        $divisions->key = 'division';
+        $divisions->key   = 'division';
         $divisions->value = json_encode($division, JSON_PRETTY_PRINT);
         $divisions->save();
     }

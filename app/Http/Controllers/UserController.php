@@ -45,7 +45,7 @@ class UserController extends Controller
         $divisions = CompanyInfo::where('key', 'division')->get();
         if ($divisions->isNotEmpty()) $divisions = $divisions->first()->value;
 
-        return view('member', compact('users', 'jobCategories', 'posts', 'recruitType', 'empStatus', 'divisions'));
+        return view('member/member', compact('users', 'jobCategories', 'posts', 'recruitType', 'empStatus', 'divisions'));
     }
 
     /**
@@ -64,9 +64,9 @@ class UserController extends Controller
 
         // TODO: 初回ログイン時のパスワード設定, ログインしたらパスワード変えてね的なアレ
         User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make('aaaa1111'),
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  => Hash::make('aaaa1111'),
             'api_token' => Str::random(80),
         ]);
 

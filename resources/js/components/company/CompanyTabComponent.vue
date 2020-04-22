@@ -6,19 +6,19 @@
 
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyName'>企業名</label>
-            <input v-model='companyName' type='text' class='form-control' id='companyName' name='companyName' v-bind:class='[ errors.companyName ? "alert-danger" : "" ]'>
+            <input v-model='companyName' type='text' class='form-control' id='companyName' name='companyName' :class='[ errors.companyName ? "alert-danger" : "" ]'>
             <label v-show='errors.companyName' class='text-danger'>{{ errors.companyName ? errors.companyName[0] : '' }}</label>
         </div>
 
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyTel'>電話番号</label>
-            <input v-model='companyTel' type='text' class='form-control' id='companyTel' name='companyTel' v-bind:class='[ errors.companyTel ? "alert-danger" : "" ]'>
+            <input v-model='companyTel' type='text' class='form-control' id='companyTel' name='companyTel' :class='[ errors.companyTel ? "alert-danger" : "" ]'>
             <label v-show='errors.companyTel' class='text-danger'>{{ errors.companyTel ? errors.companyTel[0] : '' }}</label>
         </div>
 
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyMail'>メールアドレス</label>
-            <input v-model='companyMail' type='text' class='form-control' id='companyMail' name='companyMail' v-bind:class='[ errors.companyMail ? "alert-danger" : "" ]'>
+            <input v-model='companyMail' type='text' class='form-control' id='companyMail' name='companyMail' :class='[ errors.companyMail ? "alert-danger" : "" ]'>
             <label v-show='errors.companyMail' class='text-danger'>{{ errors.companyMail ? errors.companyMail[0] : '' }}</label>
         </div>
 
@@ -26,13 +26,13 @@
 
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyZipcode'>郵便番号</label>
-            <input v-model='companyZipcode' type='text' class='form-control' id='companyZipcode' name='companyZipcode' v-bind:class='[ errors.companyZipcode ? "alert-danger" : "" ]'>
+            <input v-model='companyZipcode' type='text' class='form-control' id='companyZipcode' name='companyZipcode' :class='[ errors.companyZipcode ? "alert-danger" : "" ]'>
             <label v-show='errors.companyZipcode' class='text-danger'>{{ errors.companyZipcode ? errors.companyZipcode[0] : '' }}</label>
         </div>
 
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyState'>都道府県</label>
-            <select v-model='companyState' class='form-control' id='companyState' name='companyState' v-bind:class='[ errors.companyState ? "alert-danger" : "" ]'>
+            <select v-model='companyState' class='form-control' id='companyState' name='companyState' :class='[ errors.companyState ? "alert-danger" : "" ]'>
                 <optgroup label='北海道・東北'>
                     <option value='北海道'>北海道</option>
                     <option value='青森県'>青森県</option>
@@ -102,19 +102,19 @@
     
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyCity'>市町区村</label>
-            <input v-model='companyCity' type='text' class='form-control' id='companyCity' name='companyCity' v-bind:class='[ errors.companyCity ? "alert-danger" : "" ]'>
+            <input v-model='companyCity' type='text' class='form-control' id='companyCity' name='companyCity' :class='[ errors.companyCity ? "alert-danger" : "" ]'>
             <label v-show='errors.companyCity' class='text-danger'>{{ errors.companyCity ? errors.companyCity[0] : '' }}</label>
         </div>
 
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyAddress1'>丁目・番地</label>
-            <input v-model='companyAddress1' type='text' class='form-control' id='companyAddress1' name='companyAddress1' v-bind:class='[ errors.companyAddress1 ? "alert-danger" : "" ]'>
+            <input v-model='companyAddress1' type='text' class='form-control' id='companyAddress1' name='companyAddress1' :class='[ errors.companyAddress1 ? "alert-danger" : "" ]'>
             <label v-show='errors.companyAddress1' class='text-danger'>{{ errors.companyAddress1 ? errors.companyAddress1[0] : '' }}</label>
         </div>
 
         <div class='form-group col-md-8'>
             <label class='col-form-label' for='companyAddress2'>建物名・部屋番号</label>
-            <input v-model='companyAddress2' type='text' class='form-control' id='companyAddress2' name='companyAddress2' v-bind:class='[ errors.companyAddress2 ? "alert-danger" : "" ]'>
+            <input v-model='companyAddress2' type='text' class='form-control' id='companyAddress2' name='companyAddress2' :class='[ errors.companyAddress2 ? "alert-danger" : "" ]'>
             <label v-show='errors.companyAddress2' class='text-danger'>{{ errors.companyAddress2 ? errors.companyAddress2[0] : '' }}</label>
         </div>
 
@@ -128,7 +128,17 @@
 
 <script>
     export default {
-        props:['companyInfo'],
+        props: [
+            'companyInfo'
+        ],
+        mounted() {
+            axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + Laravel.apiToken,
+                'Accept' : 'application/json',
+            }
+        },
         data() {
             return {
                 companyName: this.companyInfo.companyInfo.companyName,
@@ -156,15 +166,12 @@
                     'companyAddress2' : this.companyAddress2,
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                };
-
                 axios.post('/api/company/save', data).then(res => {
+                    this.toastSuccess('更新しました。')
                     this.message = ''
                     this.errors = []
                 }).catch(err => {
+                    this.toastError('更新に失敗しました。')
                     this.message = err.response.data.message
                     this.errors = err.response.data.errors
                 })

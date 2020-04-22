@@ -33,9 +33,17 @@
 
 <script>
     export default {
-        props:[
+        props: [
             'divisions',
         ],
+        mounted() {
+            axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + Laravel.apiToken,
+                'Accept' : 'application/json',
+            }
+        },
         data() {
             return {
                 division: this.divisions.divisions,
@@ -56,13 +64,10 @@
                     'divisionName' : this.division,
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                };
-
                 axios.post('/api/division/save', data).then(res => {
-                    console.log(res)
+                    this.toastSuccess('更新しました。')
+                }).catch(err => {
+                    this.toastError('更新に失敗しました。')
                 })
             }
         }

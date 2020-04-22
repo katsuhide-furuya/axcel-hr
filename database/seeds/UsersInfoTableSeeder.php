@@ -12,7 +12,7 @@ class UsersInfoTableSeeder extends Seeder
     public function run()
     {
         DB::table('users_info')->insert([
-            'name'              => 'Yuji Nakagawa',
+            'name'              => '中川 裕二',
             'email'             => 'nakagawa@axcel-mode.co.jp',
             'employee_no'       => '000092',
             'division'          => 1,
@@ -24,7 +24,7 @@ class UsersInfoTableSeeder extends Seeder
         ]);
 
         DB::table('users_info')->insert([
-            'name'              => 'Yui Yuzuki',
+            'name'              => '柚木 結衣',
             'email'             => 'lucia15iris@gmail.com',
             'employee_no'       => '000001',
             'division'          => 1,
@@ -32,11 +32,11 @@ class UsersInfoTableSeeder extends Seeder
             'post'              => null,
             'recruit_category'  => 0,
             'employment_status' => 0,
-            'joining_at'        => '2016/04/01'
+            'joining_at'        => '2017/04/01'
         ]);
 
         DB::table('users_info')->insert([
-            'name'              => 'Gumika Aoumi',
+            'name'              => '蒼海 グミカ',
             'email'             => 'nakagawa-test1@axcel-mode.co.jp',
             'employee_no'       => '000002',
             'division'          => 1,
@@ -44,11 +44,11 @@ class UsersInfoTableSeeder extends Seeder
             'post'              => null,
             'recruit_category'  => 0,
             'employment_status' => 0,
-            'joining_at'        => '2016/04/01'
+            'joining_at'        => '2018/04/01'
         ]);
 
         DB::table('users_info')->insert([
-            'name'              => 'Ui Kamishiro',
+            'name'              => '神代 憂',
             'email'             => 'nakagawa-test2@axcel-mode.co.jp',
             'employee_no'       => '000003',
             'division'          => 1,
@@ -56,17 +56,17 @@ class UsersInfoTableSeeder extends Seeder
             'post'              => null,
             'recruit_category'  => 0,
             'employment_status' => 0,
-            'joining_at'        => '2016/04/01'
+            'joining_at'        => '2019/04/01'
         ]);
 
         DB::table('users_info')->insert([
-            'name'              => 'Moku Hiyochan',
+            'name'              => 'もくひよちゃん',
             'email'             => 'nakagawa-mokuhiyo@axcel-mode.co.jp',
             'employee_no'       => '100000',
             'division'          => 1,
             'job_category'      => 1,
-            'post'              => null,
-            'recruit_category'  => 0,
+            'post'              => 2,
+            'recruit_category'  => 1,
             'employment_status' => 0,
             'joining_at'        => '2016/04/01'
         ]);

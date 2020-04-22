@@ -28,10 +28,10 @@
                     <tr v-show='members.length !== 0' v-for='(member, index) in members' :key='index'>
                         <td class='text-center align-middle'>{{ member.name }}</td>
                         <td class='text-center align-middle'>{{ member.joining_at }}</td>
-                        <td class='text-center align-middle'>{{ member.recruit_category }}</td>
-                        <td class='text-center align-middle'>{{ member.employment_status }}</td>
-                        <td class='text-center align-middle'>{{ member.post }}</td>
-                        <td class='text-center align-middle'>{{ member.division }}</td>
+                        <td class='text-center align-middle'>{{ member.recruit_category != null ? recruitType[member.recruit_category] : ''}}</td>
+                        <td class='text-center align-middle'>{{ member.employment_status != null ? empStatus[member.employment_status] : ''}}</td>
+                        <td class='text-center align-middle'>{{ member.post != null ? posts[member.post] : '' }}</td>
+                        <td class='text-center align-middle'>{{ member.division != null ? divisions[member.division] : '' }}</td>
                         <td class='text-center align-middle'>
                             <button v-on:click='openEditModal(member)' type='button' class='btn btn-outline-success'>編集</button>
                             <button v-show='member.del_flg === 0' v-on:click='deleteMember(member.id)' type='button' class='btn btn-outline-danger'>削除</button>
@@ -51,19 +51,19 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='name'>氏名</label>
-                    <input v-model='name' type='text' class='form-control' id='name' name='name' v-bind:class='[ errors.name ? "alert-danger" : "" ]'>
+                    <input v-model='name' type='text' class='form-control' id='name' name='name' :class='[ errors.name ? "alert-danger" : "" ]'>
                     <label v-show='errors.name' class='text-danger'>{{ errors.name ? errors.name[0] : '' }}</label>
                 </div>
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='email'>メールアドレス</label>
-                    <input v-model='email' type='email' class='form-control' id='email' name='email' v-bind:class='[ errors.email ? "alert-danger" : "" ]'>
+                    <input v-model='email' type='email' class='form-control' id='email' name='email' :class='[ errors.email ? "alert-danger" : "" ]'>
                     <label v-show='errors.email' class='text-danger'>{{ errors.email ? errors.email[0] : '' }}</label>
                 </div>
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='employeeNo'>社員番号</label>
-                    <input v-model='employeeNo' type='text' class='form-control' id='employeeNo' name='employeeNo' v-bind:class='[ errors.employeeNo ? "alert-danger" : "" ]'>
+                    <input v-model='employeeNo' type='text' class='form-control' id='employeeNo' name='employeeNo' :class='[ errors.employeeNo ? "alert-danger" : "" ]'>
                     <label v-show='errors.employeeNo' class='text-danger'>{{ errors.employeeNo ? errors.employeeNo[0] : '' }}</label>
                 </div>
 
@@ -71,7 +71,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='division'>部署</label>
-                    <select v-model='division' class='form-control' id='division' name='division' v-bind:class='[ errors.division ? "alert-danger" : "" ]'>
+                    <select v-model='division' class='form-control' id='division' name='division' :class='[ errors.division ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(divName, index) in divisions' :key='index' :value='index'>{{ divName }}</option>
                     </select>
@@ -80,7 +80,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='jobCategory'>職種</label>
-                    <select v-model='jobCategory' class='form-control' id='jobCategory' name='jobCategory' v-bind:class='[ errors.jobCategory ? "alert-danger" : "" ]'>
+                    <select v-model='jobCategory' class='form-control' id='jobCategory' name='jobCategory' :class='[ errors.jobCategory ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(jobName, index) in jobCategories' :key='index' :value='index'>{{ jobName }}</option>
                     </select>
@@ -89,7 +89,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='post'>役職</label>
-                    <select v-model='post' class='form-control' id='post' name='post' v-bind:class='[ errors.post ? "alert-danger" : "" ]'>
+                    <select v-model='post' class='form-control' id='post' name='post' :class='[ errors.post ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(postName, index) in posts' :key='index' :value='index'>{{ postName }}</option>
                     </select>
@@ -98,7 +98,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='recruitCategory'>採用区分</label>
-                    <select v-model='recruitCategory' class='form-control' id='recruitCategory' name='recruitCategory' v-bind:class='[ errors.recruitCategory ? "alert-danger" : "" ]'>
+                    <select v-model='recruitCategory' class='form-control' id='recruitCategory' name='recruitCategory' :class='[ errors.recruitCategory ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(type, index) in recruitType' :key='index' :value='index'>{{ type }}</option>
                     </select>
@@ -107,7 +107,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='employmentStatus'>雇用形態</label>
-                    <select v-model='employmentStatus' class='form-control' id='employmentStatus' name='employmentStatus' v-bind:class='[ errors.employmentStatus ? "alert-danger" : "" ]'>
+                    <select v-model='employmentStatus' class='form-control' id='employmentStatus' name='employmentStatus' :class='[ errors.employmentStatus ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(stat, index) in empStatus' :key='index' :value='index'>{{ stat }}</option>
                     </select>
@@ -116,7 +116,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='joiningAt'>入社時期</label>
-                    <input v-model='joiningAt' type='date' class='form-control' id='joiningAt' name='joiningAt' v-bind:class='[ errors.joiningAt ? "alert-danger" : "" ]'>
+                    <input v-model='joiningAt' type='date' class='form-control' id='joiningAt' name='joiningAt' :class='[ errors.joiningAt ? "alert-danger" : "" ]'>
                     <label v-show='errors.joiningAt' class='text-danger'>{{ errors.joiningAt ? errors.joiningAt[0] : '' }}</label>
                 </div>
             </div>
@@ -134,19 +134,19 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='name'>氏名</label>
-                    <input v-model='name' type='text' class='form-control' id='name' name='name' v-bind:class='[ errors.name ? "alert-danger" : "" ]'>
+                    <input v-model='name' type='text' class='form-control' id='name' name='name' :class='[ errors.name ? "alert-danger" : "" ]'>
                     <label v-show='errors.name' class='text-danger'>{{ errors.name ? errors.name[0] : '' }}</label>
                 </div>
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='email'>メールアドレス</label>
-                    <input v-model='email' type='email' class='form-control' id='email' name='email' v-bind:class='[ errors.email ? "alert-danger" : "" ]' readonly>
+                    <input v-model='email' type='email' class='form-control' id='email' name='email' :class='[ errors.email ? "alert-danger" : "" ]' readonly>
                     <label v-show='errors.email' class='text-danger'>{{ errors.email ? errors.email[0] : '' }}</label>
                 </div>
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='employeeNo'>社員番号</label>
-                    <input v-model='employeeNo' type='text' class='form-control' id='employeeNo' name='employeeNo' v-bind:class='[ errors.employeeNo ? "alert-danger" : "" ]'>
+                    <input v-model='employeeNo' type='text' class='form-control' id='employeeNo' name='employeeNo' :class='[ errors.employeeNo ? "alert-danger" : "" ]'>
                     <label v-show='errors.employeeNo' class='text-danger'>{{ errors.employeeNo ? errors.employeeNo[0] : '' }}</label>
                 </div>
 
@@ -154,7 +154,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='division'>部署</label>
-                    <select v-model='division' class='form-control' id='division' name='division' v-bind:class='[ errors.division ? "alert-danger" : "" ]'>
+                    <select v-model='division' class='form-control' id='division' name='division' :class='[ errors.division ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(divName, index) in divisions' :key='index' :value='index'>{{ divName }}</option>
                     </select>
@@ -163,7 +163,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='jobCategory'>職種</label>
-                    <select v-model='jobCategory' class='form-control' id='jobCategory' name='jobCategory' v-bind:class='[ errors.jobCategory ? "alert-danger" : "" ]'>
+                    <select v-model='jobCategory' class='form-control' id='jobCategory' name='jobCategory' :class='[ errors.jobCategory ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(jobName, index) in jobCategories' :key='index' :value='index'>{{ jobName }}</option>
                     </select>
@@ -172,7 +172,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='post'>役職</label>
-                    <select v-model='post' class='form-control' id='post' name='post' v-bind:class='[ errors.post ? "alert-danger" : "" ]'>
+                    <select v-model='post' class='form-control' id='post' name='post' :class='[ errors.post ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(postName, index) in posts' :key='index' :value='index'>{{ postName }}</option>
                     </select>
@@ -181,7 +181,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='recruitCategory'>採用区分</label>
-                    <select v-model='recruitCategory' class='form-control' id='recruitCategory' name='recruitCategory' v-bind:class='[ errors.recruitCategory ? "alert-danger" : "" ]'>
+                    <select v-model='recruitCategory' class='form-control' id='recruitCategory' name='recruitCategory' :class='[ errors.recruitCategory ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(type, index) in recruitType' :key='index' :value='index'>{{ type }}</option>
                     </select>
@@ -190,7 +190,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='employmentStatus'>雇用形態</label>
-                    <select v-model='employmentStatus' class='form-control' id='employmentStatus' name='employmentStatus' v-bind:class='[ errors.employmentStatus ? "alert-danger" : "" ]'>
+                    <select v-model='employmentStatus' class='form-control' id='employmentStatus' name='employmentStatus' :class='[ errors.employmentStatus ? "alert-danger" : "" ]'>
                         <option value=''></option>
                         <option v-for='(stat, index) in empStatus' :key='index' :value='index'>{{ stat }}</option>
                     </select>
@@ -199,7 +199,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='joiningAt'>入社時期</label>
-                    <input v-model='joiningAt' type='date' class='form-control' id='joiningAt' name='joiningAt' v-bind:class='[ errors.joiningAt ? "alert-danger" : "" ]'>
+                    <input v-model='joiningAt' type='date' class='form-control' id='joiningAt' name='joiningAt' :class='[ errors.joiningAt ? "alert-danger" : "" ]'>
                     <label v-show='errors.joiningAt' class='text-danger'>{{ errors.joiningAt ? errors.joiningAt[0] : '' }}</label>
                 </div>
             </div>
@@ -221,7 +221,7 @@
 
 <script>
     export default {
-        props:[
+        props: [
             'users',
             'jobCategories',
             'posts',
@@ -229,7 +229,15 @@
             'empStatus',
             'divisions'
         ],
-        data(){
+        mounted() {
+            axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + Laravel.apiToken,
+                'Accept' : 'application/json',
+            }
+        },
+        data() {
             return {
                 members: this.users,
                 id: '',
@@ -281,14 +289,8 @@
                     'joiningAt'        : this.joiningAt,
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                    'Accept' : 'application/json',
-                };
-
                 axios.post('/api/member/save', data).then(res => {
+                    this.toastSuccess('登録しました。')
                     this.message = ''
                     this.errors = []
                     this.showAddModal = false
@@ -302,6 +304,7 @@
                     this.employmentStatus = ''
                     this.joiningAt = ''
                 }).catch(err => {
+                    this.toastError('登録に失敗しました。')
                     this.message = err.response.data.message
                     this.errors = err.response.data.errors
                 })
@@ -334,14 +337,8 @@
                     'joiningAt'        : this.joiningAt,
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                    'Accept' : 'application/json',
-                };
-
                 axios.post('/api/member/edit', data).then(res => {
+                    this.toastSuccess('更新しました。')
                     this.message = ''
                     this.errors = []
                     this.showEditModal = false
@@ -356,6 +353,7 @@
                     this.employmentStatus = ''
                     this.joiningAt = ''
                 }).catch(err => {
+                    this.toastError('更新に失敗しました。')
                     this.message = err.response.data.message
                     this.errors = err.response.data.errors
                 })
@@ -365,16 +363,10 @@
                     'id': id
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                };
-
                 axios.post('/api/member/delete', data).then(res => {
-                    console.log(res)
+                    this.toastSuccess('削除しました。')
                 }).catch(err => {
-                    console.log(err)
+                    this.toastError('削除に失敗しました。')
                 })
             },
             restMember: function(id) {
@@ -382,16 +374,10 @@
                     'id': id
                 }
 
-                axios.defaults.headers.common = {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + Laravel.apiToken,
-                };
-
                 axios.post('/api/member/rest', data).then(res => {
-                    console.log(res)
+                    this.toastSuccess('戻しました。')
                 }).catch(err => {
-                    console.log(err)
+                    this.toastError('戻すのに失敗しました。')
                 })
             }
         }

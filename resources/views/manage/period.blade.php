@@ -6,7 +6,7 @@
 <div class='container'>
     <div class='row justify-content-center'>
         <div class='col-md-12'>
-            <period-component v-bind:periods='{{ $periods }}'></period-component>
+            <period-component :periods='{{ $periods }}'></period-component>
         </div>
     </div>
 </div>

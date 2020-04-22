@@ -90,7 +90,9 @@ php artisan ui vue --auth
 php artisan config:clear
 
 npm install
-(npm install vue-awesome)
+※足りなかったら以下追加で叩いてください
+npm install vue-awesome
+npm install vue-toasted
 
 npm run dev
 
