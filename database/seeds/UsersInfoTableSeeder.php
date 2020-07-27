@@ -36,8 +36,8 @@ class UsersInfoTableSeeder extends Seeder
         ]);
 
         DB::table('users_info')->insert([
-            'name'              => '蒼海 グミカ',
-            'email'             => 'nakagawa-test1@axcel-mode.co.jp',
+            'name'              => '碧海 らむね',
+            'email'             => 'nakagawa-lamune@axcel-mode.co.jp',
             'employee_no'       => '000002',
             'division'          => 1,
             'job_category'      => 1,
@@ -48,8 +48,8 @@ class UsersInfoTableSeeder extends Seeder
         ]);
 
         DB::table('users_info')->insert([
-            'name'              => '神代 憂',
-            'email'             => 'nakagawa-test2@axcel-mode.co.jp',
+            'name'              => '紅星 陽奈',
+            'email'             => 'nakagawa-corona@axcel-mode.co.jp',
             'employee_no'       => '000003',
             'division'          => 1,
             'job_category'      => 1,

@@ -1,8 +1,8 @@
 <template>
     <div class='card'>
         <div class='card-header'>
-            <a v-on:click='selected = 1' :class='[ selected === 1 ? "selected" : "" ]' class='mr-3'>自分のシート</a>
-            <a v-on:click='selected = 2' :class='[ selected === 2 ? "selected" : "" ]' class='mr-3'>他の閲覧可能なシート</a>
+            <a v-on:click='selected = 1' :class='[ selected === 1 ? "selected" : "" ]' class='mr-3 pointer'>自分のシート</a>
+            <a v-on:click='selected = 2' :class='[ selected === 2 ? "selected" : "" ]' class='mr-3 pointer'>他の閲覧可能なシート</a>
             <select v-model='periodId' class='form-control float-right' id='period-dropdown' @change='changePeriod($event)'>
                 <option value=''></option>
                 <option v-for='(period, idx) in periods' :key='idx' :value='period.id' :selected='period.status == 0 ? "selected" : ""'>{{ period.period_name }}</option>
@@ -71,6 +71,8 @@
 <style scoped>
 a.selected {
     border-bottom: 1px solid rgba(0, 0, 0, 0.5) !important;
+}
+a.pointer {
     cursor: pointer !important;
 }
 #period-dropdown {

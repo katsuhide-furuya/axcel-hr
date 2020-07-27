@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
@@ -36,7 +34,3 @@ Route::get('/entity/{id}', 'SheetEntityController@index');
 Route::get('/overview', 'OverviewController@index');
 
 Route::get('/objectives', 'ObjectiveController@index');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

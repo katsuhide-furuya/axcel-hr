@@ -119,7 +119,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='sheetName'>シート名</label>
-                    <input v-model='sheetName' type='text' class='form-control' id='sheetName' name='sheetName' :class='[ errors.sheetName ? "alert-danger" : "" ]' readonly>
+                    <input v-model='sheetName' type='text' class='form-control' id='sheetName' name='sheetName' :class='[ errors.sheetName ? "alert-danger" : "" ]'>
                     <label v-show='errors.sheetName' class='text-danger'>{{ errors.sheetName ? errors.sheetName[0] : '' }}</label>
                 </div>
 
@@ -137,7 +137,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='sheetKind'>種別</label>
-                    <select v-model='sheetKind' class='form-control' id='sheetKind' name='sheetKind' :class='[ errors.sheetKind ? "alert-danger" : "" ]' readonly>
+                    <select v-model='sheetKind' class='form-control' id='sheetKind' name='sheetKind' :class='[ errors.sheetKind ? "alert-danger" : "" ]' disabled>
                         <option value='OBJECTIVE'>目標設定シート</option>
                         <option value='PROGRESS'>進捗確認シート</option>
                         <option value='BONUS'>賞与評価シート</option>
@@ -147,7 +147,7 @@
 
                 <div class='form-group col-md-8'>
                     <label class='col-form-label' for='sheetStyle'>ブロック数</label>
-                    <select v-model='sheetStyle' class='form-control' id='sheetStyle' name='sheetStyle' :class='[ errors.sheetStyle ? "alert-danger" : "" ]' readonly>
+                    <select v-model='sheetStyle' class='form-control' id='sheetStyle' name='sheetStyle' :class='[ errors.sheetStyle ? "alert-danger" : "" ]'>
                         <option value='0'>0</option>
                         <option value='1'>1</option>
                         <option value='2'>2</option>

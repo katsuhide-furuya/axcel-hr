@@ -54,23 +54,27 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarManageDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    管理メニュー <span class="caret"></span>
-                                </a>
+                            @if (Auth::user()->role == 10)
+                                <li class="nav-item dropdown">
+                                    <a id="navbarManageDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        管理メニュー <span class="caret"></span>
+                                    </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarManageDropdown">
-                                    <a class="dropdown-item" href="/periods">評価期間</a>
-                                    <a class="dropdown-item" href="/groups">紐付けグループ</a>
-                                    <a class="dropdown-item" href="/sheets">シート</a>
-                                </div>
-                            </li>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarManageDropdown">
+                                        <a class="dropdown-item" href="/periods">評価期間</a>
+                                        <a class="dropdown-item" href="/groups">紐付けグループ</a>
+                                        <a class="dropdown-item" href="/sheets">シート</a>
+                                    </div>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="/members">メンバー</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/company">企業情報</a>
-                            </li>
+                            @if (Auth::user()->role == 10)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/company">企業情報</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

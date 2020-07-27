@@ -81,21 +81,37 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## Setup
 
 Uncomment the following line in php.ini
-extension=fileinfo
-extension=mbstring
-extension=openssl
+- extension=fileinfo
+- extension=mbstring
+- extension=openssl
 
-composer require laravel/ui --dev
-php artisan ui vue --auth
-php artisan config:clear
+Next step
+- composer require laravel/ui --dev
+- php artisan ui vue --auth
+- php artisan config:clear
 
-npm install
+- npm install
+
 ※足りなかったら以下追加で叩いてください
-npm install vue-awesome
-npm install vue-toasted
+- npm install vue-awesome
+- npm install vue-toasted
 
-npm run dev
+js/css build
+- npm run dev
 
-php artisan serve
+変更自動的に検知してbuildさせたい場合はこちら
+- npm run watch
 
-view (https://localhost:8000)
+Postgres起動(install手順は割愛 -Dの値は$PGDATAを設定してれば不要)
+- which psql
+- postgres -D /usr/local/var/postgres
+- pg_ctl -D /usr/local/var/postgres(どっちだ…)
+
+DB接続
+- psql -U postgres -d axcelhr
+
+ローカルサーバ起動
+- php artisan serve
+
+ブラウザで確認
+- https://localhost:8000

@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
             'email'     => 'nakagawa@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
+            'role'      => 10,
         ]);
 
         DB::table('users')->insert([
@@ -24,20 +25,23 @@ class UsersTableSeeder extends Seeder
             'email'     => 'lucia15iris@gmail.com',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
+            'role'      => 20,
         ]);
 
         DB::table('users')->insert([
-            'name'      => '蒼海 グミカ',
-            'email'     => 'nakagawa-test1@axcel-mode.co.jp',
+            'name'      => '碧海 らむね',
+            'email'     => 'nakagawa-lamune@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
+            'role'      => 30,
         ]);
 
         DB::table('users')->insert([
-            'name'      => '神代 憂',
-            'email'     => 'nakagawa-test2@axcel-mode.co.jp',
+            'name'      => '紅星 陽奈',
+            'email'     => 'nakagawa-corona@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
+            'role'      => 30,
         ]);
 
         DB::table('users')->insert([
@@ -45,6 +49,7 @@ class UsersTableSeeder extends Seeder
             'email'     => 'nakagawa-mokuhiyo@axcel-mode.co.jp',
             'password'  => bcrypt('aaaa1111'),
             'api_token' => Str::random(80),
+            'role'      => 10,
         ]);
     }
 }
